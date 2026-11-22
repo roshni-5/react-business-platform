@@ -1,0 +1,230 @@
+/* Class grid + card */
+.class-grid {
+  display: grid;
+  gap: var(--space-5);
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.class-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: var(--shadow-sm);
+  transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.class-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .class-card,
+  .btn {
+    transition: none;
+  }
+  .class-card:hover {
+    transform: none;
+  }
+}
+
+.class-card__media-link {
+  display: block;
+}
+
+.class-image {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  background: var(--color-neutral-bg);
+}
+
+.class-image--fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-primary-dark);
+  background: linear-gradient(135deg, var(--color-primary-light), var(--color-neutral-bg));
+}
+
+.class-card__body {
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  flex: 1;
+}
+
+.class-card__badges {
+  display: flex;
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.class-card__title {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.class-card__title a {
+  text-decoration: none;
+  color: var(--color-ink);
+}
+
+.class-card__tagline {
+  color: var(--color-ink-soft);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.class-card__meta {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-2);
+  margin: var(--space-2) 0;
+  font-size: 0.82rem;
+}
+
+.class-card__meta dt {
+  color: var(--color-ink-soft);
+  font-weight: 500;
+}
+
+.class-card__meta dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.class-card__availability {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  color: var(--color-ink-soft);
+  margin-bottom: var(--space-2);
+  gap: var(--space-2);
+  flex-wrap: wrap;
+}
+
+/* Cart */
+.cart-list {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-6);
+}
+
+.cart-item {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-4);
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.cart-item--invalid {
+  border-color: var(--color-danger-text);
+  background: var(--color-danger-bg);
+}
+
+.cart-item__info h3 {
+  margin-bottom: var(--space-1);
+}
+
+.cart-item__info h3 a {
+  text-decoration: none;
+  color: var(--color-ink);
+}
+
+.cart-item__controls {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.cart-item__line-total {
+  font-weight: 700;
+  min-width: 6ch;
+  text-align: right;
+}
+
+.cart-item__issues {
+  flex-basis: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+}
+
+.cart-item__issues ul {
+  margin: 0;
+  padding-left: 1.1rem;
+  font-size: 0.85rem;
+  color: var(--color-danger-text);
+}
+
+/* Summary card */
+.summary-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  position: sticky;
+  top: calc(64px + var(--space-4));
+  align-self: start;
+}
+
+.summary-card dl {
+  display: grid;
+  gap: var(--space-2);
+  margin-bottom: var(--space-4);
+}
+
+.summary-card dl > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summary-items {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.summary-items li {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--space-3);
+  font-size: 0.9rem;
+}
+
+.summary-totals {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.summary-totals > div {
+  display: flex;
+  justify-content: space-between;
+}
+
+.summary-totals__grand {
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--color-primary-dark);
+}
