@@ -8,9 +8,9 @@ Assignment 02 at FAST-NUCES, Islamabad Campus.
 
 | Field | Value |
 |---|---|
-| Name | _[Your Name — fill in]_ |
-| Roll number | _[Your Roll No. — fill in]_ |
-| Section | _[Your Section — fill in]_ |
+| Name | Roshni Fawad |
+| Roll number | 23i-2107 |
+| Section | C |
 | Course | CS4032 — Web Programming, Fall 2026 |
 | Repository | https://github.com/roshni-5/react-business-platform |
 | Deployment | https://react-business-platform.vercel.app |
