@@ -1,8 +1,8 @@
+import { useId } from 'react';
+
 // A controlled text/textarea field with an associated <label>, error text,
 // and aria-invalid/aria-describedby wiring so assistive tech announces the
 // specific problem (FR10 + accessibility requirement).
-let idCounter = 0;
-
 export default function FormField({
   label,
   name,
@@ -17,7 +17,7 @@ export default function FormField({
   maxLength,
   helpText,
 }) {
-  const id = `field-${name}-${(idCounter += 1)}`;
+  const id = useId();
   const errorId = `${id}-error`;
   const helpId = `${id}-help`;
   const Field = as;

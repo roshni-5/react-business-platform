@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getClassById } from '../data/classes.js';
 import { useBooking } from '../context/BookingContext.jsx';
@@ -31,10 +31,9 @@ export default function ClassDetailPage() {
 
   const session = classItem?.sessions.find((s) => s.id === sessionId);
 
-  const capacityCheck = useMemo(() => {
-    if (!session) return { valid: false, reason: 'Select a session.' };
-    return validateBookingQuantity(spots, remainingSpots(session));
-  }, [session, spots]);
+  const capacityCheck = session
+    ? validateBookingQuantity(spots, remainingSpots(session))
+    : { valid: false, reason: 'Select a session.' };
 
   const cutoffCheck = session ? checkBookingCutoff(session.startsAt) : { valid: false };
 
