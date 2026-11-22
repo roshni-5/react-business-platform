@@ -1,0 +1,48 @@
+:root {
+  /* Brand palette — deep teal (primary action/trust) + warm amber (energy/CTA) */
+  --color-primary: #0f6b5c;
+  --color-primary-dark: #0a4e43;
+  --color-primary-light: #e3f1ee;
+  --color-accent: #e8792e;
+  --color-accent-dark: #c6621f;
+
+  --color-ink: #1a1f1c;
+  --color-ink-soft: #4a524d;
+  --color-surface: #ffffff;
+  --color-bg: #f7f5f0;
+  --color-border: #e2ded3;
+
+  --color-success-bg: #e7f5ec;
+  --color-success-text: #166534;
+  --color-warning-bg: #fef3e2;
+  --color-warning-text: #92610a;
+  --color-danger-bg: #fdeaea;
+  --color-danger-text: #a3261d;
+  --color-info-bg: #e7f0fb;
+  --color-info-text: #1d4e89;
+  --color-neutral-bg: #eeece5;
+  --color-neutral-text: #4a524d;
+
+  --font-heading: 'Manrope', 'Segoe UI', system-ui, sans-serif;
+  --font-body: 'Inter', 'Segoe UI', system-ui, sans-serif;
+
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  --shadow-sm: 0 1px 2px rgba(26, 31, 28, 0.06);
+  --shadow-md: 0 8px 24px rgba(26, 31, 28, 0.08);
+  --shadow-lg: 0 16px 40px rgba(26, 31, 28, 0.12);
+
+  --container-max: 1180px;
+  --focus-ring: 3px solid #1d7ae0;
+}
