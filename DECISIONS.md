@@ -8,10 +8,13 @@ is demonstrable in the running app.
 
 ## Decision 1 — Show price, level, and live availability on every class card
 
-**Problem:** Class/session listings on many public booking sites only show a
-name and photo; price, duration, level, and remaining capacity are hidden
-until you open each item individually. Comparing five classes means five
-page loads.
+**Problem:** Observed on ClassPass (`classpass.com/search`, "Fitness Studios
+in London Congestion Charging Zone"): every result card shows a photo,
+category tags, studio name, address, and a star rating — but no price and
+no class time anywhere on the card (see
+`evidence/problem1-classpass-search-grid.webp`). Comparing several studios
+means opening each one individually just to find out what it costs or when
+a class runs.
 
 **Decision:** Every `ClassCard` (`src/components/ClassCard.jsx`) shows
 category, level, instructor, duration, price per spot, the next session's
@@ -39,54 +42,63 @@ information — is the exact problem being fixed.
 **Evidence:** `/classes` — every card shows level, price, and an
 availability badge (e.g. "Fully booked" on Vinyasa Flow, "2 spots left" on
 Spin Ride 45) without opening a single detail page. See screenshot
-`02-classes-1280.png`.
+`02-classes-1280.png`, compared against
+`evidence/problem1-classpass-search-grid.webp`.
 
 ---
 
-## Decision 2 — Keep search, filter, and sort state in the URL (interaction/state decision)
+## Decision 2 — Never let a floating element cover page content (information hierarchy / mobile layout)
 
-**Problem:** On several booking-style sites, opening an item's detail page
-and pressing Back resets any search text, category filter, or sort order
-that was active — the user has to redo their search from scratch to keep
-comparing options.
+**Problem:** Observed on ClassPass at a 400px mobile width
+(`classpass.com/search/.../fitness-classes/...`): a persistent floating
+"Get 14 days free" pill is fixed to the bottom of the viewport and overlaps
+the last visible class card in the list, covering its text (see
+`evidence/problem3-classpass-mobile-overlap.png`). On a screen where every
+row of vertical space is already scarce, a promotional element permanently
+eats into the content area.
 
-**Decision:** `ClassesPage` reads and writes `q`, `category`, `level`, and
-`sort` through React Router's `useSearchParams` instead of local
-`useState`. The filter state lives in the URL (`/classes?q=yoga&level=Beginner`),
-so browser Back/Forward restores it exactly, and a filtered view can be
-bookmarked or shared.
+**Decision:** Nova Movement Studio has exactly one floating UI element in
+the whole app — the small, explicitly-labelled "Demo controls" panel used
+for assignment evaluation (`src/components/DemoControlsPanel.jsx`), never
+shown as part of the real customer journey's selling points. Every primary
+action (Add to my bookings, Continue to checkout, Confirm booking) sits
+inline within the normal page flow instead of pinned to the viewport.
 
-**Alternative considered:** Store filter state in a parent/context object
-that persists across route changes in memory (e.g., a `FilterContext`).
-This also survives navigation, but doesn't survive a page refresh or a
-shared link, and adds another context provider for what is fundamentally
-page-local UI state.
+**Alternative considered:** A sticky bottom action bar — e.g. a "Book Now"
+button that stays visible while scrolling a long class detail page, a
+common mobile pattern that keeps the primary action always reachable.
 
-**Reason:** URL state is the idiomatic React Router solution for
-page-scoped, shareable, back/forward-aware state, and requires no extra
-provider — it reuses state the browser already manages.
+**Reason:** A sticky bar guarantees one-tap access to an action, but
+permanently costs a fixed strip of screen height on every screen, and risks
+exactly the problem observed above — overlapping the content the user is
+actually trying to read or tap. We chose to keep the full viewport
+available for content and accept that the user scrolls to the button.
 
-**Tradeoff:** Every keystroke in the search box updates the URL (via
-`history.replace`-like `setSearchParams`), which is slightly more verbose
-URLs than a clean `/classes` path, and ties the filter implementation to
-`react-router-dom`'s API rather than being portable to a plain `useState`.
+**Tradeoff:** On longer pages (e.g. the checkout form), the primary button
+is below the fold until the user scrolls down, rather than being always
+one tap away.
 
-**Code location:** `src/pages/ClassesPage.jsx` (`handleFilterChange`,
-`useSearchParams`), `src/components/SearchFilterBar.jsx` (controlled
-inputs bound to the parent's URL-derived props).
+**Code location:** No component under `src/components/` or `src/pages/`
+uses fixed/sticky positioning for a customer-facing control; the only
+`position: fixed` rule in `src/styles/layout.css` is `.demo-panel`, scoped
+to the evaluation-only `DemoControlsPanel.jsx`.
 
-**Evidence:** From `/classes`, search "yoga" and set Level to "Beginner",
-open a class, then press the browser Back button — the search box and level
-filter are still set, and the same filtered results reappear (verified in
-the Playwright smoke test; see `03-classes-filtered.png`).
+**Evidence:** Compare `mobile-classes.png` / `mobile-detail.png` (390px —
+nothing obscures the list or detail content) against
+`evidence/problem3-classpass-mobile-overlap.png`, where the fixed
+promotional pill sits over the bottom list item.
 
 ---
 
-## Decision 3 — Surface capacity, eligibility, and booking-cutoff state before the user commits
+## Decision 3 — Surface capacity, eligibility, and booking-cutoff state before the user commits (interaction/state behaviour)
 
-**Problem:** On several booking platforms, whether a slot is still available
-— or whether you're even eligible for it — only becomes clear after you've
-opened a multi-step booking form, sometimes after entering contact details.
+**Problem:** Observed on ClassPass (`classpass.com/studios/barrys-soho-london`):
+the studio detail page shows photos, rating, and address, but **no class
+schedule, no prices, and no availability at all** (see
+`evidence/problem2-classpass-studio-detail.webp`). The only call to action
+is "Get 14 days free" — a full membership trial signup. A customer cannot
+find out whether a session is even available, or what it costs, without
+committing to create an account first.
 
 **Decision:** Availability (`remainingSpots`), the booking cutoff
 (`checkBookingCutoff`), and experience-level requirements are all shown
@@ -102,11 +114,15 @@ step, showing one combined error if something's wrong. This is simpler to
 implement (validation lives in one place) but matches the exact "charges or
 restrictions appear late" problem being investigated.
 
-**Reason:** This is also the information-hierarchy/mobile-layout decision:
-on narrow (390px) layouts especially, screen space is scarce, so
-availability and restriction badges are placed directly next to the
-control they affect (the session radio button), not in a separate
-"terms" section a user might skip while scrolling on mobile.
+**Reason:** This is the interaction/state-behaviour decision: which session
+options are even selectable changes live, in response to application state
+(remaining capacity, the current time versus the cutoff) — a sold-out or
+past-cutoff session's radio button is disabled and labelled with the exact
+reason, rather than silently accepted and rejected only at the end. It also
+touches information hierarchy on mobile: availability and restriction
+badges sit directly next to the control they affect (the session radio
+button), not in a separate "terms" section a user might skip while
+scrolling on a 390px screen.
 
 **Tradeoff:** Validation logic is now checked in more than one place (at
 selection time in `ClassDetailPage`/`SessionPicker`, and again at checkout
@@ -118,6 +134,12 @@ call the same pure functions rather than re-implementing the conditions.
 **Code location:** `src/components/SessionPicker.jsx`,
 `src/pages/ClassDetailPage.jsx`, `src/rules/cutoffRule.js`,
 `src/rules/eligibilityRule.js`.
+
+**Evidence:** `/classes/olympic-lifting-lab` shows an "Experience required"
+badge and disabled, reason-labelled sold-out/past-cutoff sessions before
+any detail is entered — compare to
+`evidence/problem2-classpass-studio-detail.webp`, where no such information
+is available at all without signing up.
 
 **Evidence:** Opening `/classes/olympic-lifting-lab` (an Advanced class)
 shows an "Experience required" badge and inline notice before any session

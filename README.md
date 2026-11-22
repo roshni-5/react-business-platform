@@ -210,9 +210,9 @@ submitted final commit hash.
   current, in-memory view of each session).
 - No authentication/accounts — the app is single-user per browser via
   `localStorage`.
-- Reference-site screenshots for the investigation are the student's
-  responsibility to capture (see the PDF report); this development
-  environment has no access to external websites.
+- Reference-site screenshots (`evidence/`) were captured by the student
+  from classpass.com, since this development environment has no outbound
+  access to external websites.
 
 ## React/JavaScript concept map
 
