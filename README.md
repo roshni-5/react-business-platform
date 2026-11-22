@@ -13,7 +13,7 @@ Assignment 02 at FAST-NUCES, Islamabad Campus.
 | Section | _[Your Section — fill in]_ |
 | Course | CS4032 — Web Programming, Fall 2026 |
 | Repository | https://github.com/roshni-5/react-business-platform |
-| Deployment | _[Deployed URL — fill in once deployed; see "Deployment" below]_ |
+| Deployment | https://react-business-platform.vercel.app |
 | Final commit hash | _[Fill in with the final `git rev-parse HEAD` before submission]_ |
 
 ## Project description
