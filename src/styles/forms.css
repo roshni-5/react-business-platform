@@ -66,6 +66,10 @@
   }
 }
 
+.filter-bar__field:focus-within label {
+  color: var(--color-primary-dark);
+}
+
 .filter-bar__field label {
   display: block;
   font-size: 0.8rem;

@@ -3,8 +3,10 @@
   --color-primary: #0f6b5c;
   --color-primary-dark: #0a4e43;
   --color-primary-light: #e3f1ee;
-  --color-accent: #e8792e;
-  --color-accent-dark: #c6621f;
+  /* Darkened from the original #e8792e so white button text clears the
+     WCAG AA 4.5:1 contrast ratio (measured ~4.65:1 here vs ~2.9:1 before). */
+  --color-accent: #b85a1c;
+  --color-accent-dark: #994712;
 
   --color-ink: #1a1f1c;
   --color-ink-soft: #4a524d;
