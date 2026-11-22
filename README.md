@@ -173,6 +173,33 @@ browser. No network request is made for a booking, no payment is processed,
 and no email is sent. Simulated areas are explicitly labelled in the UI
 (checkout page, confirmation page, footer).
 
+## Deployment
+
+The repository already includes SPA rewrite config for both targets
+(`vercel.json` and `netlify.toml` / `public/_redirects`), so nested routes
+like `/classes/sunrise-power-yoga` resolve correctly on refresh (FR19).
+
+**Vercel (recommended — zero config needed):**
+1. Go to https://vercel.com/new and sign in with GitHub.
+2. Import `roshni-5/react-business-platform`.
+3. Framework preset: Vite (auto-detected). Build command `npm run build`,
+   output directory `dist` (auto-detected). Click **Deploy**.
+4. After it finishes, open the given `*.vercel.app` URL and verify: the
+   homepage loads, `/classes` loads, open any class and refresh the page
+   (confirms the nested-route rewrite works), and check the browser console
+   for errors.
+5. Copy the deployment URL into this README's "Student details" table and
+   into the final PDF report.
+
+**Netlify (alternative):**
+1. Go to https://app.netlify.com/start and sign in with GitHub.
+2. Pick `roshni-5/react-business-platform`. Build command `npm run build`,
+   publish directory `dist` (already set in `netlify.toml`). Click **Deploy**.
+3. Verify the same checks as above.
+
+Re-deploy after any further commit so the deployed version matches the
+submitted final commit hash.
+
 ## Known limitations
 
 - The mock data loader always "succeeds" after a fixed delay unless the demo
